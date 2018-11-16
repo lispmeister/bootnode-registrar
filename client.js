@@ -4,8 +4,6 @@ var fs = require('fs');
 var request = require('request');
 var sleep = require('sleep');
 
-let ipcPath = "/home/geth/.geth/geth.ipc";
-
 function web3Client() {
     this.failCount = 0;
 }
@@ -17,7 +15,7 @@ web3Client.prototype.Refresh = function () {
 
     if (!this._web3) {
         var client = net.Socket();
-        var web3 = new Web3(new Web3.providers.IpcProvider(ipcPath, client));
+        var web3 = new Web3(new Web3.providers.IpcProvider(process.env.ETH_IPC_PATH, client));
 
         web3._extend({
             property: 'geth',
