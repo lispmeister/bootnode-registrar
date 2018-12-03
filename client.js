@@ -28,36 +28,9 @@ web3Client.prototype.Refresh = function () {
             ]
         });
 
-        web3._extend({
-            property: 'parity',
-            properties:
-            [
-                new web3._extend.Property({
-                    name: 'nodeInfo',
-                    getter: 'parity_enode',
-                    outputFormatter: function (result) {
-                        var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)/g;
-                        var match = pattern.exec(result);
-
-                        if (match) {
-                            result = {
-                                id: match[1],
-                                ports: {
-                                    listener: match[2]
-                                }
-                            }
-                        }
-
-                        return result;
-                    }
-                }),
-            ]
-        });
-
         this._web3 = web3
         this.default = web3.geth;
         this.geth = web3.geth;
-        this.parity = web3.parity;
     }
 
     this._web3.reset();
@@ -97,28 +70,12 @@ function readNode(web3, fn) {
 
     web3.default.getNodeInfo(function (error, result) {
         if (error) {
-            web3.geth.getNodeInfo(function (error, result) {
-                if (error) {
-                    web3.parity.getNodeInfo(function (error, result) {
-
-                        if (!error)
-                        {
-                            web3.default = web3.parity;
-                        }
-
-                        fn(error, result);
-                    });
-                }
-                else
-                {
-                    web3.default = web3.geth;
-                    fn(error, result);
-                }
-            })
+          console.log("ERROR: web3.default.getNodeInfo: " + error);
         }
         else
         {
-            fn(error, result);
+          console.log("RESULT: web3.default.getNodeInfo: " + result);
+          fn(error, result);
         }
     });
 }
