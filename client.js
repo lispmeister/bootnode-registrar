@@ -23,24 +23,7 @@ web3Client.prototype.Refresh = function () {
             [
                 new web3._extend.Property({
                     name: 'nodeInfo',
-                    getter: 'admin_nodeInfo',
-                    outputFormatter: function (result) {
-                        var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)\?/g;
-                        var match = pattern.exec(result);
-
-                        if (match) {
-                            console.log("MATCH[1]: " + match[1]);
-                            console.log("MATCH[2]: " + match[2]);
-                            result = {
-                                id: match[1],
-                                ports: {
-                                    listener: match[2]
-                                }
-                            }
-                        }
-
-                        return result;
-                    }
+                    getter: 'admin_nodeInfo'
                 }),
             ]
         });
@@ -81,6 +64,23 @@ function runLoop(obj, timeout) {
     }, timeout);
 }
 
+function outputFormatter(result) {
+    var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)\?/g;
+    var match = pattern.exec(result);
+
+    if (match) {
+        console.log("MATCH[1]: " + match[1]);
+        console.log("MATCH[2]: " + match[2]);
+        result = {
+            id: match[1],
+            ports: {
+                listener: match[2]
+            }
+        }
+    }
+    return result;
+}
+
 function readNode(web3, fn) {
     web3.Refresh();
 
@@ -90,9 +90,10 @@ function readNode(web3, fn) {
         }
         else
         {
-          console.log("RESULT: web3.geth.getNodeInfo.id: " + result.id);
-          console.log("RESULT: web3.geth.getNodeInfo.id: " + result.ports.listener);
-          fn(error, result);
+          end_result = outputFormatter(result);
+          console.log("RESULT: result.id: " + end_result.id);
+          console.log("RESULT: result.ports.listener: " + end_result.ports.listener);
+          fn(error, end_result);
         }
     });
 }
