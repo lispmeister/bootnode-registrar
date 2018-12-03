@@ -23,7 +23,7 @@ web3Client.prototype.Refresh = function () {
             [
                 new web3._extend.Property({
                     name: 'nodeInfo',
-                    getter: 'admin.nodeInfo',
+                    getter: 'admin_nodeInfo',
                     outputFormatter: function (result) {
                         var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)\?/g;
                         var match = pattern.exec(result);
