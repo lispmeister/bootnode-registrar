@@ -90,6 +90,7 @@ function readNode(web3, fn) {
         }
         else
         {
+          console.log("web3.geth.getNodeInfo: %j", result);
           end_result = outputFormatter(result);
           console.log("RESULT: result.id: " + end_result.id);
           console.log("RESULT: result.ports.listener: " + end_result.ports.listener);
