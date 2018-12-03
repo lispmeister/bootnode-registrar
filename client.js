@@ -74,7 +74,7 @@ function readNode(web3, fn) {
         }
         else
         {
-          console.log("RESULT: web3.default.getNodeInfo: " + result);
+          console.log("RESULT: web3.default.getNodeInfo.id: " + result.id);
           fn(error, result);
         }
     });
