@@ -29,6 +29,8 @@ web3Client.prototype.Refresh = function () {
                         var match = pattern.exec(result);
 
                         if (match) {
+                            console.log("MATCH[1]: " + match[1]);
+                            console.log("MATCH[2]: " + match[2]);
                             result = {
                                 id: match[1],
                                 ports: {
@@ -44,7 +46,6 @@ web3Client.prototype.Refresh = function () {
         });
 
         this._web3 = web3
-        this.default = web3.geth;
         this.geth = web3.geth;
     }
 
