@@ -25,7 +25,7 @@ web3Client.prototype.Refresh = function () {
                     name: 'nodeInfo',
                     getter: 'admin_nodeInfo',
                     outputFormatter: function (result) {
-                        var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)/g;
+                        var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)\?/g;
                         var match = pattern.exec(result);
 
                         if (match) {
@@ -89,7 +89,8 @@ function readNode(web3, fn) {
         }
         else
         {
-          console.log("RESULT: web3.default.getNodeInfo.id: " + result);
+          console.log("RESULT: web3.default.getNodeInfo.id: " + result.id);
+          console.log("RESULT: web3.default.getNodeInfo.id: " + result.ports.listener);
           fn(error, result);
         }
     });
