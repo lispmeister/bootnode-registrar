@@ -23,7 +23,7 @@ web3Client.prototype.Refresh = function () {
             [
                 new web3._extend.Property({
                     name: 'nodeInfo',
-                    getter: 'admin_nodeInfo',
+                    getter: 'admin.nodeInfo',
                     outputFormatter: function (result) {
                         var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)\?/g;
                         var match = pattern.exec(result);
@@ -84,14 +84,14 @@ function runLoop(obj, timeout) {
 function readNode(web3, fn) {
     web3.Refresh();
 
-    web3.default.getNodeInfo(function (error, result) {
+    web3.geth.getNodeInfo(function (error, result) {
         if (error) {
-          console.log("ERROR: web3.default.getNodeInfo: " + error);
+          console.log("ERROR: web3.geth.getNodeInfo: " + error);
         }
         else
         {
-          console.log("RESULT: web3.default.getNodeInfo.id: " + result.id);
-          console.log("RESULT: web3.default.getNodeInfo.id: " + result.ports.listener);
+          console.log("RESULT: web3.geth.getNodeInfo.id: " + result.id);
+          console.log("RESULT: web3.geth.getNodeInfo.id: " + result.ports.listener);
           fn(error, result);
         }
     });
