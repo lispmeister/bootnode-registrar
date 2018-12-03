@@ -23,7 +23,22 @@ web3Client.prototype.Refresh = function () {
             [
                 new web3._extend.Property({
                     name: 'nodeInfo',
-                    getter: 'admin_nodeInfo'
+                    getter: 'admin_nodeInfo',
+                    outputFormatter: function (result) {
+                        var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)/g;
+                        var match = pattern.exec(result);
+
+                        if (match) {
+                            result = {
+                                id: match[1],
+                                ports: {
+                                    listener: match[2]
+                                }
+                            }
+                        }
+
+                        return result;
+                    }
                 }),
             ]
         });
@@ -74,7 +89,7 @@ function readNode(web3, fn) {
         }
         else
         {
-          console.log("RESULT: web3.default.getNodeInfo.id: " + result.id);
+          console.log("RESULT: web3.default.getNodeInfo.id: " + result);
           fn(error, result);
         }
     });
