@@ -64,9 +64,11 @@ function runLoop(obj, timeout) {
     }, timeout);
 }
 
-function outputFormatter(result) {
+function extract(query_result) {
+    var enode = query_result.enode
+    console.log("enode: " + enode)
     var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)\?/g;
-    var match = pattern.exec(result);
+    var match = pattern.exec(enode);
 
     if (match) {
         console.log("MATCH[1]: " + match[1]);
@@ -91,7 +93,7 @@ function readNode(web3, fn) {
         else
         {
           console.log("web3.geth.getNodeInfo: %j", result);
-          end_result = outputFormatter(result);
+          end_result = extract(result);
           console.log("RESULT: result.id: " + end_result.id);
           console.log("RESULT: result.ports.listener: " + end_result.ports.listener);
           fn(error, end_result);
