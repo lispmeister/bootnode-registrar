@@ -88,8 +88,8 @@ function readNode(web3, fn) {
         {
           // console.log("web3.geth.getNodeInfo: %j", result);
           end_result = extract(result);
-          console.log("RESULT: result.id: " + end_result.id);
-          console.log("RESULT: result.ports.listener: " + end_result.ports.listener);
+          // console.log("RESULT: result.id: " + end_result.id);
+          // console.log("RESULT: result.ports.listener: " + end_result.ports.listener);
           fn(error, end_result);
         }
     });
