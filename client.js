@@ -8,15 +8,14 @@ function web3Client() {
     this.failCount = 0;
 }
 
+// query the geth API and fetch nodeInfo data
 web3Client.prototype.Refresh = function () {
     if (this.failCount > 15) {
         throw new Error("Too many exceptions. . . Exiting")
     }
-
     if (!this._web3) {
         var client = net.Socket();
         var web3 = new Web3(new Web3.providers.IpcProvider(process.env.ETH_IPC_PATH, client));
-
         web3._extend({
             property: 'geth',
             properties:
@@ -27,11 +26,9 @@ web3Client.prototype.Refresh = function () {
                 }),
             ]
         });
-
         this._web3 = web3
         this.geth = web3.geth;
     }
-
     this._web3.reset();
 }
 
@@ -64,15 +61,13 @@ function runLoop(obj, timeout) {
     }, timeout);
 }
 
+// extract node id and listening port
 function extract(query_result) {
     var enode = query_result.enode
-    console.log("enode: " + enode)
+    // console.log("enode: " + enode)
     var pattern = /enode\:\/\/([^@]+)@[^:]+:(.+)\?/g;
     var match = pattern.exec(enode);
-
     if (match) {
-        console.log("MATCH[1]: " + match[1]);
-        console.log("MATCH[2]: " + match[2]);
         result = {
             id: match[1],
             ports: {
@@ -85,14 +80,13 @@ function extract(query_result) {
 
 function readNode(web3, fn) {
     web3.Refresh();
-
     web3.geth.getNodeInfo(function (error, result) {
         if (error) {
           console.log("ERROR: web3.geth.getNodeInfo: " + error);
         }
         else
         {
-          console.log("web3.geth.getNodeInfo: %j", result);
+          // console.log("web3.geth.getNodeInfo: %j", result);
           end_result = extract(result);
           console.log("RESULT: result.id: " + end_result.id);
           console.log("RESULT: result.ports.listener: " + end_result.ports.listener);
